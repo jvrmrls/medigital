@@ -1,0 +1,69 @@
+._panel-1 {
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-backdrop-filter: grayscale(100%);
+  backdrop-filter: grayscale(100%);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+._panel-2 {
+  height: 80vh;
+  background-color: var(--surface-100);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+._panel-3 {
+  height: 80vh;
+  background-color: var(--surface-50);
+}
+._panel-4 {
+  height: 80vh;
+  background-color: var(--surface-50);
+}
+._panel-5 {
+  height: 60vh;
+  background-color: var(--surface-100);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+._points {
+  width: 70%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+._points > div {
+  width: 30%;
+  padding: 0 10px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+._points > div > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  padding: 1rem;
+  border-radius: 100%;
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+@media (max-width: 768px) {
+}

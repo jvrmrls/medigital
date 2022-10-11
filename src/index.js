@@ -1,3 +1,9 @@
+/*
+ * Created on Wed Sep 21 2022
+ *
+ * Authors: Javier Morales, Edgar Reyes, Carlos Cordero, Brian Rodas, Keny Chavez
+ * Copyright (c) 2022 MEdigital
+ */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
