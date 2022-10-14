@@ -3,15 +3,13 @@
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  -webkit-backdrop-filter: grayscale(100%);
-  backdrop-filter: grayscale(100%);
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 ._panel-2 {
   height: 80vh;
-  background-color: var(--surface-100);
+  background-color: var(--surface-50);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,15 +17,15 @@
 }
 ._panel-3 {
   height: 80vh;
-  background-color: var(--surface-50);
+  background-color: var(--surface-100);
 }
 ._panel-4 {
   height: 80vh;
-  background-color: var(--surface-50);
+  background-color: var(--surface-100);
 }
 ._panel-5 {
   height: 60vh;
-  background-color: var(--surface-100);
+  background-color: var(--surface-50);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,7 +43,7 @@
 ._points > div {
   width: 30%;
   padding: 0 10px;
-  text-align: justify;
+  text-align: center;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -65,5 +63,28 @@
   color: var(--primary-color-text);
 }
 
+._description-item {
+  display: block;
+}
+
+._asset-image {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+._article {
+  width: 50%;
+}
+
 @media (max-width: 768px) {
+  ._points {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+  ._description-item {
+    display: none;
+  }
+  ._article {
+    width: 100%;
+  }
 }
