@@ -135,10 +135,20 @@ const HomePage = () => {
             </p>
             <p>
               Manejamos nuestra informaci&oacute;n en servidores con
-              certificaciones en seguridad y demanda. No tendr&aacute;s ninguna
+              certificaciones en seguridad y demanda como lo es{' '}
+              <span className='_bold'>AWS EC2</span>. No tendr&aacute;s ninguna
               preocupaci&oacute;n de que tus datos sean publicados en internet
             </p>
-            <Button label='Ver m&aacute;s detalles' />
+            <Button
+              label='Ver m&aacute;s detalles'
+              className='p-button-link'
+              onClick={() =>
+                window.open(
+                  'https://aws.amazon.com/es/what-is-aws/?nc1=f_cc',
+                  '_blank'
+                )
+              }
+            />
           </article>
         </div>
         <div className='fluid-container d-flex justify-content-center justify-content-lg-around align-items-center flex-column flex-lg-row _panel-4 px-2'>

@@ -9,7 +9,6 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 
-import Login from './views/Login'
 import HomePage from './pages/HomePage'
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 function App() {
@@ -23,7 +22,7 @@ function App() {
           exact
           path='login'
           element={<ConditionalRoute content={_UNLOGGED_CONTEXT} />}>
-          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/login' element={<HomePage />} />
         </Route>
         <Route
           exact

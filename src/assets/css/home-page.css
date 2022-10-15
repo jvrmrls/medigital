@@ -6,6 +6,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  min-height: 600px;
 }
 ._panel-2 {
   height: 80vh;
@@ -14,14 +15,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 600px;
 }
 ._panel-3 {
   height: 80vh;
   background-color: var(--surface-100);
+  min-height: 400px;
 }
 ._panel-4 {
   height: 80vh;
   background-color: var(--surface-100);
+  min-height: 400px;
 }
 ._panel-5 {
   height: 60vh;
@@ -30,6 +34,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 600px;
 }
 
 ._points {
