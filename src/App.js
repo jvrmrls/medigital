@@ -10,9 +10,10 @@ import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 
 import HomePage from './pages/HomePage'
+import DashboardPage from './pages/DashboardPage'
+import { getLocalStorageCredentials } from './helpers/localStorageCredentials'
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 function App() {
-  const _UNLOGGED_CONTEXT = 'UNLOGGED'
   const _LOGGED_CONTEXT = 'LOGGED'
   return (
     <>
@@ -20,15 +21,9 @@ function App() {
         <Route exact path='' index element={<HomePage />} />
         <Route
           exact
-          path='login'
-          element={<ConditionalRoute content={_UNLOGGED_CONTEXT} />}>
-          <Route exact path='/login' element={<HomePage />} />
-        </Route>
-        <Route
-          exact
-          path='dashboard'
+          path='/dashboard'
           element={<ConditionalRoute content={_LOGGED_CONTEXT} />}>
-          <Route exact path='/dashboard' element={<HomePage />} />
+          <Route exact path='/dashboard' element={<DashboardPage />} />
         </Route>
       </Routes>
     </>
@@ -37,15 +32,11 @@ function App() {
 
 function ConditionalRoute({ content }) {
   // GET VALUE LOCALSTORAGE credentials
-  const credentials = localStorage.getItem('credentials') || null
-  switch (content) {
-    case 'LOGGED':
-      return credentials ? <Outlet /> : <Navigate to='/login' replace />
-    case 'UNLOGGED':
-      return !credentials ? <Outlet /> : <Navigate to='/dashboard' replace />
-    default:
-      break
+  const { credential } = getLocalStorageCredentials()
+  if (content === 'LOGGED') {
+    return credential ? <Outlet /> : <Navigate to='/' replace />
   }
+  return
 }
 /*
 const Navigation = () => {

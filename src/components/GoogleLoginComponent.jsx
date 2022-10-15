@@ -7,9 +7,13 @@
 
 import { GoogleLogin } from '@react-oauth/google'
 import { login } from '../api/endpoints'
+import { useNavigate } from 'react-router-dom'
+
+import { setLocalStorageCredentials } from '../helpers/localStorageCredentials'
 
 const _PLATFORM = 'GOOGLE'
 export default function GoogleLoginComponent() {
+  const navigate = useNavigate()
   return (
     <GoogleLogin
       onSuccess={({ credential }) => {
@@ -34,8 +38,8 @@ export default function GoogleLoginComponent() {
   async function loginAuth(credential) {
     try {
       const response = await login({ platform: _PLATFORM, tokenId: credential })
-      alert('Identificado')
-      console.log(response)
+      setLocalStorageCredentials(response)
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       console.log(err)
     }

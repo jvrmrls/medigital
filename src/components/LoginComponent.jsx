@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Sidebar } from 'primereact/sidebar'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
@@ -6,13 +6,29 @@ import { Password } from 'primereact/password'
 import GoogleLoginComponent from './GoogleLoginComponent.jsx'
 import FacebookLoginComponent from './FacebookLoginComponent.jsx'
 import '../assets/css/login-component.css'
+import { getLocalStorageCredentials } from '../helpers/localStorageCredentials.js'
+import { useNavigate } from 'react-router-dom'
+
 const LoginComponent = () => {
+  const navigate = useNavigate()
+
   const [loadingButton, setLoadingButton] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [isLogged, setIsLogged] = useState(null)
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
   })
+
+  useEffect(() => {
+    const { credential } = getLocalStorageCredentials()
+    if (credential) {
+      setIsLogged(true)
+    } else {
+      setIsLogged(false)
+    }
+  }, [])
+
   return (
     <>
       <Sidebar
@@ -77,13 +93,21 @@ const LoginComponent = () => {
           </div>
         </section>
       </Sidebar>
-
-      <Button
-        label='Ingresar'
-        className='mt-3'
-        onClick={(e) => setVisible(true)}
-      />
+      {!isLogged ? (
+        <Button
+          label='Ingresar'
+          className='mt-3'
+          onClick={(e) => setVisible(true)}
+        />
+      ) : (
+        <Button
+          label='Ir al dashboard'
+          className='mt-3'
+          onClick={() => navigate('/dashboard')}
+        />
+      )}
     </>
   )
 }
+
 export default LoginComponent
