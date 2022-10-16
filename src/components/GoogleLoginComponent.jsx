@@ -4,30 +4,37 @@
  * Authors: Javier Morales, Edgar Reyes, Carlos Cordero, Brian Rodas, Keny Chavez
  * Copyright (c) 2022 MEdigital
  */
-
+import { useState } from 'react'
 import { GoogleLogin } from '@react-oauth/google'
 import { login } from '../api/endpoints'
 import { useNavigate } from 'react-router-dom'
+import LoaderComponent from './LoaderComponent.jsx'
 
 import { setLocalStorageCredentials } from '../helpers/localStorageCredentials'
 
 const _PLATFORM = 'GOOGLE'
 export default function GoogleLoginComponent() {
   const navigate = useNavigate()
+
+  const [loading, setLoading] = useState(false)
+
   return (
-    <GoogleLogin
-      onSuccess={({ credential }) => {
-        loginAuth(credential)
-      }}
-      onError={() => {
-        console.log('Login Failed')
-      }}
-      theme='outline'
-      size='large'
-      shape='circle'
-      auto_select
-      useOneTap
-    />
+    <>
+      {loading && <LoaderComponent />}
+      <GoogleLogin
+        onSuccess={({ credential }) => {
+          loginAuth(credential)
+        }}
+        onError={() => {
+          console.log('Login Failed')
+        }}
+        theme='outline'
+        size='large'
+        shape='circle'
+        auto_select
+        useOneTap
+      />
+    </>
   )
 
   /**
@@ -36,6 +43,7 @@ export default function GoogleLoginComponent() {
    * that they've been identified, and if it fails, it logs the error.
    */
   async function loginAuth(credential) {
+    setLoading(true)
     try {
       const response = await login({ platform: _PLATFORM, tokenId: credential })
       setLocalStorageCredentials(response)
@@ -43,5 +51,6 @@ export default function GoogleLoginComponent() {
     } catch (err) {
       console.log(err)
     }
+    setLoading(false)
   }
 }

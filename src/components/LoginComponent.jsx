@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom'
 const LoginComponent = () => {
   const navigate = useNavigate()
 
-  const [loadingButton, setLoadingButton] = useState(false)
   const [visible, setVisible] = useState(false)
   const [isLogged, setIsLogged] = useState(null)
   const [credentials, setCredentials] = useState({
@@ -75,12 +74,12 @@ const LoginComponent = () => {
               label='Iniciar sesi&oacute;n'
               icon='pi pi-sign-in '
               className=' w-100'
-              loading={loadingButton}
+              /*  loading={loading} */
               onClick={() => {
-                setLoadingButton(true)
+                /*  setLoading(true)
                 setTimeout(() => {
-                  setLoadingButton(false)
-                }, 1000)
+                  setLoading(false)
+                }, 1000) */
               }}
             />
             <span className='m-0 text-muted' style={{ fontSize: '0.8rem' }}>

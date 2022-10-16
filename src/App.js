@@ -21,9 +21,9 @@ function App() {
         <Route exact path='' index element={<HomePage />} />
         <Route
           exact
-          path='/dashboard'
+          path='/dashboard/*'
           element={<ConditionalRoute content={_LOGGED_CONTEXT} />}>
-          <Route exact path='/dashboard' element={<DashboardPage />} />
+          <Route exact path='/dashboard/*' element={<DashboardPage />} />
         </Route>
       </Routes>
     </>

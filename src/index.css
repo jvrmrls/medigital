@@ -44,3 +44,13 @@ body {
 ._boldest {
   font-weight: 800;
 }
+
+._only-desktop {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  ._only-desktop {
+    display: flex;
+  }
+}
