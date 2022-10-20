@@ -13,3 +13,13 @@ export const login = (credentials) => {
       .catch((error) => reject(error))
   })
 }
+
+// endpoint "getDates"
+export const getDates = (date = null) => {
+  return new Promise((resolve, reject) => {
+    _API
+      .get('/dates?booked_by=true' + (date ? `&date=${date}` : ''))
+      .then(({ data }) => resolve(data))
+      .catch((error) => reject(error))
+  })
+}

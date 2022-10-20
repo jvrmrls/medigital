@@ -27,7 +27,7 @@ const NavBarComponent = () => {
           </p>
         </div>
 
-        <Divider layout='vertical' />
+        <Divider layout='vertical' className='_only-desktop' />
         <div className='_only-desktop' style={{ minWidth: '100px' }}>
           <span>
             <p
