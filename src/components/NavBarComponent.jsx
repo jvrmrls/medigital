@@ -28,7 +28,7 @@ const NavBarComponent = () => {
         </div>
 
         <Divider layout='vertical' className='_only-desktop' />
-        <div className='_only-desktop' style={{ minWidth: '100px' }}>
+        <div className='_only-desktop' style={{ minWidth: '120px' }}>
           <span>
             <p
               className='m-0 text-center _boldest'
@@ -36,7 +36,7 @@ const NavBarComponent = () => {
               hoy
             </p>
             <p
-              className='m-0 text-uppercase'
+              className='m-0 text-uppercase w-100'
               style={{ color: 'var(--primary-color)' }}>
               {today}
             </p>

@@ -4,11 +4,13 @@ const setLocalStorageCredentials = ({
   fullName,
   email,
 }) => {
-  localStorage.setItem('medigital:credential', credential || null)
-  localStorage.setItem('medigital:avatar', avatar || null)
-  localStorage.setItem('medigital:fullName', fullName || null)
-  localStorage.setItem('medigital:email', email || null)
-  return
+  return new Promise((resolve) => {
+    localStorage.setItem('medigital:credential', credential || null)
+    localStorage.setItem('medigital:avatar', avatar || null)
+    localStorage.setItem('medigital:fullName', fullName || null)
+    localStorage.setItem('medigital:email', email || null)
+    resolve()
+  })
 }
 
 const getLocalStorageCredentials = () => {

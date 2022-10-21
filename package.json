@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "@react-oauth/google": "^0.2.8",
+    "@react-pdf/renderer": "^3.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "framer-motion": "^7.5.3",
+    "jsbarcode": "^3.11.5",
     "moment": "^2.29.4",
     "mongoose": "^6.6.4",
     "primeicons": "^6.0.1",

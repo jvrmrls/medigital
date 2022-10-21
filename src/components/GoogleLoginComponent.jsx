@@ -46,7 +46,7 @@ export default function GoogleLoginComponent() {
     setLoading(true)
     try {
       const response = await login({ platform: _PLATFORM, tokenId: credential })
-      setLocalStorageCredentials(response)
+      await setLocalStorageCredentials(response)
       navigate('/dashboard', { replace: true })
     } catch (err) {
       console.log(err)

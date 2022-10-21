@@ -17,9 +17,10 @@ const DashboardPage = () => {
     <>
       <NavBarComponent />
       <main className='container d-flex justify-content-start gap-3 align-items-center'>
-        {dates.map((item, index) => {
-          return <DateCardComponent key={index} data={item} />
-        })}
+        {dates.length > 0 &&
+          dates.map((item, index) => {
+            return <DateCardComponent key={index} data={item} />
+          })}
       </main>
     </>
   )

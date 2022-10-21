@@ -1,6 +1,10 @@
 import { Card } from 'primereact/card'
 import AvatarComponent from './AvatarComponent'
 import moment from 'moment/moment'
+import DatePdfComponent from './DatePdfComponent'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { Button } from 'primereact/button'
+
 const DateCardComponent = ({ data }) => {
   const parseDate = (date) => {
     return moment(date).format('ll')
@@ -30,7 +34,17 @@ const DateCardComponent = ({ data }) => {
       subTitle={parseDate(data.date)}
       footer={footer}
       style={{ maxWidth: '30%', minWidth: '200px' }}>
-      {data.reason}
+      <div className='d-flex flex-column justify-content-center align-items-start'>
+        <p className='m-0'>{data.reason}</p>
+        <p className='text-muted mt-0 mb-2' style={{ fontSize: '0.8rem' }}>
+          {data.observations}
+        </p>
+        <PDFDownloadLink
+          document={<DatePdfComponent data={data} />}
+          fileName={`${data._id}_medigital.pdf`}>
+          <Button icon='pi pi-print' className='p-button-text p-button-sm' />
+        </PDFDownloadLink>
+      </div>
     </Card>
   )
 }
