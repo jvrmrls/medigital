@@ -1,5 +1,11 @@
+import { getLocalStorageOnlyCredential } from '../helpers/localStorageCredentials'
 import _API from './index'
 
+_API.interceptors.request.use(function (config) {
+  const token = getLocalStorageOnlyCredential()
+  config.headers.Authorization = token ? `Bearer ${token}` : ''
+  return config
+})
 // CONFIGURE THE ENDPOINTS
 
 // endpoint "login"

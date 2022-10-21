@@ -4,13 +4,10 @@ const setLocalStorageCredentials = ({
   fullName,
   email,
 }) => {
-  return new Promise((resolve) => {
-    localStorage.setItem('medigital:credential', credential || null)
-    localStorage.setItem('medigital:avatar', avatar || null)
-    localStorage.setItem('medigital:fullName', fullName || null)
-    localStorage.setItem('medigital:email', email || null)
-    resolve()
-  })
+  localStorage.setItem('medigital:credential', credential || null)
+  localStorage.setItem('medigital:avatar', avatar || null)
+  localStorage.setItem('medigital:fullName', fullName || null)
+  localStorage.setItem('medigital:email', email || null)
 }
 
 const getLocalStorageCredentials = () => {
@@ -25,6 +22,9 @@ const getLocalStorageCredentials = () => {
     email,
   }
 }
+const getLocalStorageOnlyCredential = () => {
+  return localStorage.getItem('medigital:credential') || ''
+}
 
 const removeLocalStorageCredentials = () => {
   localStorage.removeItem('medigital:credential')
@@ -38,4 +38,5 @@ export {
   setLocalStorageCredentials,
   removeLocalStorageCredentials,
   getLocalStorageCredentials,
+  getLocalStorageOnlyCredential,
 }
