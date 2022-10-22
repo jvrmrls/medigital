@@ -1,20 +1,20 @@
-import { Card } from 'primereact/card'
 import AvatarComponent from './AvatarComponent'
 import moment from 'moment/moment'
 import DatePdfComponent from './DatePdfComponent'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { Button } from 'primereact/button'
+import { motion } from 'framer-motion'
 
-const DateCardComponent = ({ data }) => {
+const DateCardComponent = ({ content, setSelectedDate }) => {
   const parseDate = (date) => {
-    return moment(date).format('ll')
+    return moment(date).format('LL')
   }
-  const footer = (
-    <>
-      <div className=' d-flex justify-content-around '>
+  const Footer = () => {
+    return (
+      <motion.div className=' d-flex justify-content-center gap-3 w-100'>
         <AvatarComponent
-          image={data.booked_by.avatar}
-          label={data.booked_by.email}
+          image={content.booked_by.avatar}
+          label={content.booked_by.email}
           size={'medium'}
         />
         <div className='m-0 d-flex flex-column text-center'>
@@ -22,30 +22,34 @@ const DateCardComponent = ({ data }) => {
             Agendado por
           </span>
           <span style={{ fontSize: '0.7rem' }}>
-            {data.booked_by.first_name}
+            {content.booked_by.first_name}
           </span>
         </div>
-      </div>
-    </>
-  )
+      </motion.div>
+    )
+  }
+
   return (
-    <Card
-      title={data.hour}
-      subTitle={parseDate(data.date)}
-      footer={footer}
-      style={{ maxWidth: '30%', minWidth: '200px' }}>
-      <div className='d-flex flex-column justify-content-center align-items-start'>
-        <p className='m-0'>{data.reason}</p>
-        <p className='text-muted mt-0 mb-2' style={{ fontSize: '0.8rem' }}>
-          {data.observations}
-        </p>
-        <PDFDownloadLink
-          document={<DatePdfComponent data={data} />}
-          fileName={`${data._id}_medigital.pdf`}>
-          <Button icon='pi pi-print' className='p-button-text p-button-sm' />
-        </PDFDownloadLink>
-      </div>
-    </Card>
+    <>
+      <motion.div className='d-flex justify-content-between align-items-center w-100 m-0'>
+        <motion.h5 className='p-card-title m-0'>hora: {content.hour}</motion.h5>
+        <Button
+          icon='pi pi-times'
+          className='p-button-text p-button-sm'
+          onClick={() => setSelectedDate(null)}
+        />
+      </motion.div>
+
+      <motion.p className='p-card-subtitle m-0'>
+        fecha: {parseDate(content.date)}
+      </motion.p>
+      <PDFDownloadLink
+        document={<DatePdfComponent data={content} />}
+        fileName={`${content._id}_medigital.pdf`}>
+        <Button icon='pi pi-print' className='p-button-text p-button-sm' />
+      </PDFDownloadLink>
+      <Footer />
+    </>
   )
 }
 

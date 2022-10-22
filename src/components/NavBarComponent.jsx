@@ -45,7 +45,8 @@ const NavBarComponent = () => {
       </div>
       <div className='d-flex flex-row justify-content-around justify-content-lg-end align-items-center gap-1 gap-lg-5 w-100'>
         <Button
-          label='Agenda'
+          icon='pi pi-plus'
+          label='Crear cita'
           className=' p-button-sm p-button-raised p-button-text'
         />
         <LogOutComponent />

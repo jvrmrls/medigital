@@ -1,0 +1,9 @@
+._w-card {
+  width: 30% !important;
+}
+
+@media (maxwidth: 768px) {
+  ._w-card {
+    width: 50% !important;
+  }
+}
