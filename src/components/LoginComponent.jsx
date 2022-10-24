@@ -8,6 +8,8 @@ import FacebookLoginComponent from './FacebookLoginComponent.jsx'
 import '../assets/css/login-component.css'
 import { getLocalStorageCredentials } from '../helpers/localStorageCredentials.js'
 import { useNavigate } from 'react-router-dom'
+import { login } from '../api/endpoints.js'
+import LoaderComponent from './LoaderComponent.jsx'
 
 const LoginComponent = () => {
   const navigate = useNavigate()
@@ -15,9 +17,10 @@ const LoginComponent = () => {
   const [visible, setVisible] = useState(false)
   const [isLogged, setIsLogged] = useState(null)
   const [credentials, setCredentials] = useState({
-    username: '',
+    email: '',
     password: '',
   })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const { credential } = getLocalStorageCredentials()
@@ -28,15 +31,30 @@ const LoginComponent = () => {
     }
   }, [])
 
+  async function loginNative(credentials) {
+    if (credentials.email === '' || credentials.password === '') {
+      return
+    }
+    setLoading(true)
+    try {
+      const response = await login({ ...credentials, platform: 'NATIVE' })
+      console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
+    setLoading(false)
+  }
+
   return (
     <>
+      {loading && <LoaderComponent />}
       <Sidebar
         style={{ backgroundColor: 'var(--surface-100)' }}
         visible={visible}
         className='p-sidebar-sm'
         position='right'
         onHide={() => {
-          setCredentials({ username: '', password: '' })
+          setCredentials({ email: '', password: '' })
           setVisible(false)
         }}>
         <section className='container d-flex flex-column align-items-center justify-content-between w-100 h-100'>
@@ -47,12 +65,12 @@ const LoginComponent = () => {
 
             <InputText
               className='p-inputtext-sm w-100'
-              value={credentials.username}
+              value={credentials.email}
               placeholder='Ingrese el correo electr&oacute;nico'
               onChange={(e) =>
                 setCredentials((prevCredentials) => ({
                   ...prevCredentials,
-                  username: e.target.value,
+                  email: e.target.value,
                 }))
               }
             />
@@ -74,12 +92,9 @@ const LoginComponent = () => {
               label='Iniciar sesi&oacute;n'
               icon='pi pi-sign-in '
               className=' w-100'
-              /*  loading={loading} */
-              onClick={() => {
-                /*  setLoading(true)
-                setTimeout(() => {
-                  setLoading(false)
-                }, 1000) */
+              onClick={(e) => {
+                e.preventDefault()
+                loginNative(credentials)
               }}
             />
             <span className='m-0 text-muted' style={{ fontSize: '0.8rem' }}>

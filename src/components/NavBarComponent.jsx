@@ -4,10 +4,13 @@ import { Divider } from 'primereact/divider'
 import moment from 'moment'
 import 'moment/locale/es'
 import LogOutComponent from './LogOutComponent'
+import { useNavigate } from 'react-router-dom'
 moment.locale('es')
 const today = moment().format('DD MMM YYYY')
 
 const NavBarComponent = () => {
+  const navigate = useNavigate()
+
   const { avatar, fullName, email } = getLocalStorageCredentials()
   return (
     <nav
@@ -48,6 +51,7 @@ const NavBarComponent = () => {
           icon='pi pi-plus'
           label='Crear cita'
           className=' p-button-sm p-button-raised p-button-text'
+          onClick={() => navigate('/dashboard/create-date')}
         />
         <LogOutComponent />
       </div>
