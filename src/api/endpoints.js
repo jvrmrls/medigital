@@ -29,3 +29,13 @@ export const getDates = (date = null) => {
       .catch((error) => reject(error))
   })
 }
+
+// endpoint "createDate"
+export const createDate = (date) => {
+  return new Promise((resolve, reject) => {
+    _API
+      .post('/dates', date)
+      .then(({ data }) => resolve(data))
+      .catch((error) => reject(error))
+  })
+}
