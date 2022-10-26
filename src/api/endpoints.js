@@ -20,21 +20,21 @@ export const login = (credentials) => {
   })
 }
 
-// endpoint "getDates"
-export const getDates = (date = null) => {
+// endpoint "getAppointments"
+export const getAppointments = (date = null) => {
   return new Promise((resolve, reject) => {
     _API
-      .get('/dates?booked_by=true' + (date ? `&date=${date}` : ''))
+      .get('/appointments?booked_by=true' + (date ? `&date=${date}` : ''))
       .then(({ data }) => resolve(data))
       .catch((error) => reject(error))
   })
 }
 
-// endpoint "createDate"
-export const createDate = (date) => {
+// endpoint "createAppointment"
+export const createAppointment = (date) => {
   return new Promise((resolve, reject) => {
     _API
-      .post('/dates', date)
+      .post('/appointments', date)
       .then(({ data }) => resolve(data))
       .catch((error) => reject(error))
   })

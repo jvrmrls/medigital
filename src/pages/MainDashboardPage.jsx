@@ -1,4 +1,4 @@
-import { getDates } from '../api/endpoints'
+import { getAppointments } from '../api/endpoints'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import moment from 'moment'
@@ -6,22 +6,22 @@ import DateCardComponent from '../components/DateCardComponent'
 import LoaderComponent from '../components/LoaderComponent'
 
 const MainDashboardPage = () => {
-  const [dates, setDates] = useState([])
-  const [selectedDate, setSelectedDate] = useState(null)
+  const [appointments, setAppointments] = useState([])
+  const [selectedAppointment, setSelectedAppointment] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const _getDates = async () => {
+    const _getAppointments = async () => {
       setLoading(true)
-      const response = await getDates()
-      setDates(response)
+      const response = await getAppointments()
+      setAppointments(response)
       setLoading(false)
     }
-    _getDates().catch(console.error)
+    _getAppointments().catch(console.error)
   }, [])
 
-  function changeSelectedDate(item) {
-    setSelectedDate(item)
+  function changeSelectedAppointment(item) {
+    setSelectedAppointment(item)
   }
 
   return (
@@ -32,8 +32,8 @@ const MainDashboardPage = () => {
           className='d-inline-flex gap-1 justify-content-start justify-content-lg-center overflow-auto w-100 mt-2 mb-0 p-0'
           style={{ listStyle: 'none' }}>
           <AnimatePresence>
-            {dates &&
-              dates.map((item, index) => {
+            {appointments &&
+              appointments.map((item, index) => {
                 return (
                   <motion.li
                     variants={{
@@ -50,17 +50,17 @@ const MainDashboardPage = () => {
                     animate='visible'
                     custom={index}
                     key={item._id}
-                    onClick={() => setSelectedDate(item)}
+                    onClick={() => setSelectedAppointment(item)}
                     className=' text-center m-0 px-2 py-1 rounded-2  _disable-select-text'
                     style={{
                       cursor: 'pointer',
                       minWidth: '170px',
                       background:
-                        selectedDate?._id === item._id
+                        selectedAppointment?._id === item._id
                           ? 'var(--primary-color)'
                           : '',
                       color:
-                        selectedDate?._id === item._id
+                        selectedAppointment?._id === item._id
                           ? 'var(--primary-color-text)'
                           : '',
                     }}>
@@ -75,7 +75,7 @@ const MainDashboardPage = () => {
         </ul>
         <div className='w-100'>
           <AnimatePresence initial={false}>
-            {selectedDate && (
+            {selectedAppointment && (
               <motion.div
                 variants={{
                   hidden: {
@@ -95,13 +95,13 @@ const MainDashboardPage = () => {
                 animate='visible'
                 exit='removed'
                 layout='position'
-                key={selectedDate._id}
+                key={selectedAppointment._id}
                 className='d-flex  flex-column justify-content-between 
                   align-items-start px-3 py-2 p-card'
                 style={{ background: 'var(--surface-0)' }}>
                 <DateCardComponent
-                  content={selectedDate}
-                  setSelectedDate={changeSelectedDate}
+                  content={selectedAppointment}
+                  setSelectedAppointment={changeSelectedAppointment}
                 />
               </motion.div>
             )}

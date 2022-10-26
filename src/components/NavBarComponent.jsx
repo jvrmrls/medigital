@@ -51,7 +51,7 @@ const NavBarComponent = () => {
           icon='pi pi-plus'
           label='Crear cita'
           className=' p-button-sm p-button-raised p-button-text'
-          onClick={() => navigate('/dashboard/create-date')}
+          onClick={() => navigate('/dashboard/create-appointment')}
         />
         <LogOutComponent />
       </div>

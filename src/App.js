@@ -13,7 +13,7 @@ import HomePage from './pages/HomePage'
 import DashboardPage from './pages/DashboardPage'
 import { getLocalStorageCredentials } from './helpers/localStorageCredentials'
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import CreateDatePage from './pages/CreateDatePage'
+import CreateAppointmentPage from './pages/CreateAppointmentPage'
 import MainDashboardPage from './pages/MainDashboardPage'
 function App() {
   const _LOGGED_CONTEXT = 'LOGGED'
@@ -27,7 +27,10 @@ function App() {
           element={<ConditionalRoute content={_LOGGED_CONTEXT} />}>
           <Route exact path='/dashboard' element={<DashboardPage />}>
             <Route path='' element={<MainDashboardPage />} />
-            <Route path='create-date' element={<CreateDatePage />} />
+            <Route
+              path='create-appointment'
+              element={<CreateAppointmentPage />}
+            />
           </Route>
         </Route>
       </Routes>
