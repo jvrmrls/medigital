@@ -12,6 +12,7 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { locale, addLocale } from 'primereact/api'
+import 'react-toastify/dist/ReactToastify.css';
 
 addLocale('es', {
   firstDayOfWeek: 1,

@@ -79,6 +79,7 @@
 
 ._article {
   width: 50%;
+  min-height: 400px;
 }
 
 @media (max-width: 768px) {

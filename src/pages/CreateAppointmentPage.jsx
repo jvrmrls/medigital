@@ -9,6 +9,7 @@ import { Button } from 'primereact/button'
 import LoaderComponent from '../components/LoaderComponent.jsx'
 import { useNavigate } from 'react-router-dom'
 import { createAppointment } from '../api/endpoints'
+import { ToastContainer, toast } from 'react-toastify'
 const items = [
   {
     label: 'Citas',
@@ -54,7 +55,11 @@ const CreateAppointmentPage = () => {
   })
   async function _createAppointment(data) {
     // Validate data
-    if (!validateData(data)) {
+    const isValidated = validateData(data)
+    if (!isValidated.status) {
+      toast(isValidated.msg, {
+        type: 'warning',
+      })
       return
     }
     try {
@@ -64,18 +69,34 @@ const CreateAppointmentPage = () => {
         ...data,
         date: formatDate(data.date),
       })
+      toast('Se creó la cita', { type: 'success' })
       navigate('/dashboard', { replace: true })
     } catch (err) {
-      console.log(err)
+      if (err.response?.status === 422) {
+        const { errors } = err.response.data
+        errors.forEach((element) => {
+          toast(element.msg, {
+            type: 'error',
+          })
+        })
+      } else {
+        toast('No se pudo guardar la cita. Intente más tarde.', {
+          type: 'error',
+        })
+      }
     }
     setLoading(false)
   }
   function validateData(data) {
-    if (data.name === '') return false
-    if (data.date === '' || data.date === null) return false
-    if (data.hour === '' || data.hour === null) return false
-    if (data.reason === '') return false
-    return true
+    if (data.date === '' || data.date === null)
+      return { msg: 'La fecha es requerida', status: false }
+    if (data.hour === '' || data.hour === null)
+      return { msg: 'La hora es requerida', status: false }
+    if (data.name === '')
+      return { msg: 'El nombre de paciente es requerido', status: false }
+    if (data.reason === '')
+      return { msg: 'El motivo es requerido', status: false }
+    return { msg: '', status: true }
   }
   function formatDate(date) {
     const dateWithCorrectFormat = date.toISOString()
@@ -83,12 +104,12 @@ const CreateAppointmentPage = () => {
   }
   return (
     <>
+      <ToastContainer />
       {loading && <LoaderComponent />}
-
-      <main className='w-100 container'>
-        <BreadCrumbComponent items={items} home={home} />
-        <div className='row  py-2 px-1'>
-          <div className='col-12 col-md-4 d-flex justify-content-center align-items-start'>
+      <BreadCrumbComponent items={items} home={home} />
+      <main className='container '>
+        <div className='row  pt-2'>
+          <div className='col-12 col-md-4 '>
             <Calendar
               value={appointment?.date}
               onChange={(e) =>
@@ -98,12 +119,14 @@ const CreateAppointmentPage = () => {
               }
               disabledDays={[0, 6]}
               visible={true}
+              disabledDates={[today]}
               minDate={today}
               inline
+              className='w-100'
             ></Calendar>
           </div>
-          <div className='col-12 col-md-8'>
-            <span className='d-flex gap-2 align-items-center'>
+          <div className='col-12 col-md-8 _bg-principal px-3'>
+            <span className='d-flex gap-2 align-items-center mt-2'>
               <i className='pi pi-sun'></i>
               <span>Horas de la ma&ntilde;ana </span>
             </span>
@@ -146,7 +169,7 @@ const CreateAppointmentPage = () => {
                 <label htmlFor=''>Nombre de paciente *</label>
                 <InputText
                   value={appointment?.name}
-                  className='w-100'
+                  className='w-100 text-uppercase'
                   placeholder='Ingrese el nombre del paciente'
                   onChange={(e) => {
                     setAppointment((current) => {
@@ -156,9 +179,9 @@ const CreateAppointmentPage = () => {
                 />
               </div>
               <div className='col-6 mt-3'>
-                <label htmlFor=''>Motivo</label>
+                <label htmlFor=''>Motivo *</label>
                 <InputText
-                  className='w-100'
+                  className='w-100 text-uppercase'
                   value={appointment?.reason}
                   placeholder='Ingrese el motivo de la cita'
                   onChange={(e) => {
@@ -171,7 +194,7 @@ const CreateAppointmentPage = () => {
               <div className='col-12 mt-3'>
                 <label htmlFor=''>Observaciones</label>
                 <InputTextarea
-                  className='w-100'
+                  className='w-100 text-uppercase'
                   rows={2}
                   value={appointment?.observations}
                   placeholder='Ingrese las observaciones'
@@ -190,6 +213,9 @@ const CreateAppointmentPage = () => {
               style={{ minWidth: '200px' }}
               onClick={() => _createAppointment(appointment)}
             />
+            <p className='text-muted ms-2  my-0' style={{ fontSize: '.8rem' }}>
+              * campos requeridos
+            </p>
           </div>
         </div>
       </main>

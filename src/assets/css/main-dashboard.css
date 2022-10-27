@@ -1,0 +1,11 @@
+._today {
+  min-height: 500px;
+}
+
+._all-appointments{
+    height: 50vh;
+    min-height: 500px;
+}
+
+@media (max-width: 768px) {
+}

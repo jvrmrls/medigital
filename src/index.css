@@ -15,6 +15,7 @@ body {
   box-sizing: border-box;
   background-color: var(--surface-50);
   color: var(--text-color);
+  overflow-x: hidden;
 }
 
 /* width */
@@ -57,6 +58,10 @@ body {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
+}
+
+._bg-principal {
+  background-color: var(--surface-0);
 }
 
 @media only screen and (min-width: 768px) {
