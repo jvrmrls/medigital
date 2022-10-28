@@ -31,9 +31,7 @@ const MainDashboardPage = () => {
       setLoading(false)
     }
     _getAppointments().catch(console.error)
-
   }, [])
-
 
   function AppointmentsCounter({ appointments }) {
     const style = {
@@ -48,26 +46,28 @@ const MainDashboardPage = () => {
     if (counter > 0 && !loading) {
       return (
         <>
-          <span className='mb-3' style={style}>{counter} cita(s) pendiente(s) para hoy</span>
-          {
-            todayAppointments.map((item, index) => {
-              return (<div className='my-1' key={index}>A las
-                <span className='_bold mx-2'>
-                    {item.hour}
-                  </span>por
-                <span className='text-uppercase mx-2'
-                      style={{ color: 'var(--primary-color)' }}>{item.reason}
+          <span className='mb-3' style={style}>
+            {counter} cita(s) pendiente(s) para hoy
+          </span>
+          {todayAppointments.map((item, index) => {
+            return (
+              <div className='my-1' key={index}>
+                A las
+                <span className='_bold mx-2'>{item.hour}</span>por
+                <span
+                  className='text-uppercase mx-2'
+                  style={{ color: 'var(--primary-color)' }}
+                >
+                  {item.reason}
                 </span>
-              </div>)
-            })
-          }
+              </div>
+            )
+          })}
         </>
       )
     }
     if (!loading) {
-      return (
-        <span style={style}>Al parecer hoy no nos visitar&aacute;s</span>
-      )
+      return <span style={style}>Al parecer hoy no nos visitar&aacute;s</span>
     }
   }
 
@@ -75,40 +75,53 @@ const MainDashboardPage = () => {
     <>
       {loading && <LoaderComponent />}
       <main className='fluid-container d-flex flex-column justify-content-start gap-3 align-items-start'>
-        <motion.div className='_today d-flex flex-column justify-content-around align-items-center w-100'
-                    style={{ backgroundColor: 'var(--surface-0)' }}>
+        <motion.div
+          className='_today d-flex flex-column justify-content-around align-items-center w-100'
+          style={{ backgroundColor: 'var(--surface-0)' }}
+        >
           <div className='text-center container'>
-            <p className='_bold'>
-              Veamos que tienes que hacer por hoy...
-            </p>
+            <p className='_bold'>Veamos que tienes que hacer por hoy...</p>
             <AppointmentsCounter appointments={appointments} />
           </div>
-          <img src={pendingAppointmentsImage} alt='person-with-red' className='_asset-image' />
+          <img
+            src={pendingAppointmentsImage}
+            alt='person-with-red'
+            className='_asset-image'
+          />
         </motion.div>
         <section className='_all-appointments w-100'>
-          <p className='text-center _bold' style={{fontSize: '2rem'}}>Listado de citas</p>
+          <p className='text-center _bold' style={{ fontSize: '2rem' }}>
+            Listado de citas
+          </p>
           <form className='w-100 d-flex flex-row flex-wrap justify-content-center gap-3 align-items-center mb-3'>
             <Dropdown
               value={filter.status}
               options={statusAppointment}
-              onChange={(e) => setFilter((current) => {
-                return { ...current, status: e.value }
-              })}
+              onChange={(e) =>
+                setFilter((current) => {
+                  return { ...current, status: e.value }
+                })
+              }
               placeholder='Seleccione estado'
-              style={{ minWidth: '200px' }} />
+              style={{ minWidth: '200px' }}
+            />
             <Calendar
               value={filter.date}
-              onChange={(e) => setFilter((current) => {
-                return { ...current, date: e.value }
-              })}
+              onChange={(e) =>
+                setFilter((current) => {
+                  return { ...current, date: e.value }
+                })
+              }
               placeholder='Seleccione fecha'
               style={{ minWidth: '200px' }}
-                showButtonBar={true}></Calendar>
+              showButtonBar={true}
+            ></Calendar>
           </form>
-          <ShowListAppointmentsComponent appointments={appointments} filter={filter} />
-
+          <ShowListAppointmentsComponent
+            appointments={appointments}
+            filter={filter}
+          />
         </section>
-
       </main>
     </>
   )
