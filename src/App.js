@@ -16,7 +16,6 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import CreateAppointmentPage from './pages/CreateAppointmentPage'
 import UpdateAppointmentPage from './pages/UpdateAppointmentPage'
 import MainDashboardPage from './pages/MainDashboardPage'
-import FooterComponent from './components/FooterComponent'
 function App() {
   const _LOGGED_CONTEXT = 'LOGGED'
   return (
@@ -41,7 +40,6 @@ function App() {
           </Route>
         </Route>
       </Routes>
-    <FooterComponent/>
     </>
   )
 }
