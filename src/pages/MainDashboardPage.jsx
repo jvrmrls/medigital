@@ -1,4 +1,4 @@
-import { getAppointments } from '../api/endpoints'
+import { getAppointments, cancelAppointment } from '../api/endpoints'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import moment from 'moment'
@@ -8,6 +8,7 @@ import pendingAppointmentsImage from '../assets/images/pending_appointments.svg'
 import ShowListAppointmentsComponent from '../components/ShowListAppointmentsComponent'
 import { Dropdown } from 'primereact/dropdown'
 import { Calendar } from 'primereact/calendar'
+import { ToastContainer, toast } from 'react-toastify'
 
 const statusAppointment = [
   { label: '--TODAS--', value: null },
@@ -20,19 +21,43 @@ const statusAppointment = [
 
 const MainDashboardPage = () => {
   const [appointments, setAppointments] = useState([])
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({
+    status: 'PENDING',
+  })
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const _getAppointments = async () => {
-      setLoading(true)
-      const response = await getAppointments()
-      setAppointments(response)
-      setLoading(false)
-    }
     _getAppointments().catch(console.error)
   }, [])
 
+  const _getAppointments = async () => {
+    setLoading(true)
+    const response = await getAppointments()
+    setAppointments(response)
+    setLoading(false)
+  }
+  const _cancelAppointment = async (appointment) => {
+    try {
+      setLoading(true)
+      await cancelAppointment(appointment)
+      _getAppointments()
+    } catch (err) {
+      if (err.response?.status === 422) {
+        const { errors } = err.response.data
+        errors.forEach((element) => {
+          toast(element.msg, {
+            type: 'error',
+          })
+        })
+      } else {
+        toast('No se pudo actualizar la cita. Intente más tarde.', {
+          type: 'error',
+        })
+      }
+    }
+
+    setLoading(false)
+  }
   function AppointmentsCounter({ appointments }) {
     const style = {
       fontSize: '1.5rem',
@@ -49,9 +74,9 @@ const MainDashboardPage = () => {
           <span className='mb-3' style={style}>
             {counter} cita(s) pendiente(s) para hoy
           </span>
-          {todayAppointments.map((item, index) => {
+          {todayAppointments.map((item) => {
             return (
-              <div className='my-1' key={index}>
+              <div className='my-1' key={item._id}>
                 A las
                 <span className='_bold mx-2'>{item.hour}</span>por
                 <span
@@ -73,6 +98,7 @@ const MainDashboardPage = () => {
 
   return (
     <>
+      <ToastContainer />
       {loading && <LoaderComponent />}
       <main className='fluid-container d-flex flex-column justify-content-start gap-3 align-items-start'>
         <motion.div
@@ -103,7 +129,7 @@ const MainDashboardPage = () => {
                 })
               }
               placeholder='Seleccione estado'
-              style={{ minWidth: '200px' }}
+              style={{ minWidth: '250px' }}
             />
             <Calendar
               value={filter.date}
@@ -113,13 +139,14 @@ const MainDashboardPage = () => {
                 })
               }
               placeholder='Seleccione fecha'
-              style={{ minWidth: '200px' }}
+              style={{ minWidth: '250px' }}
               showButtonBar={true}
             ></Calendar>
           </form>
           <ShowListAppointmentsComponent
             appointments={appointments}
             filter={filter}
+            _cancelAppointment={_cancelAppointment}
           />
         </section>
       </main>

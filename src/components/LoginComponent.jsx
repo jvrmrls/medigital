@@ -97,9 +97,6 @@ const LoginComponent = () => {
                 loginNative(credentials)
               }}
             />
-            <span className='m-0 text-muted' style={{ fontSize: '0.8rem' }}>
-              ¿No tienes una cuenta a&uacute;n? Registrate AQUI
-            </span>
           </form>
           <div className='d-flex justify-content-center flex-column align-items-center gap-2 mt-2'>
             <GoogleLoginComponent />

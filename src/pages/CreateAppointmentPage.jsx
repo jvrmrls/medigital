@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Calendar } from 'primereact/calendar'
 import { InputText } from 'primereact/inputtext'
 import '../assets/css/appointment.css'
@@ -8,42 +8,24 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { Button } from 'primereact/button'
 import LoaderComponent from '../components/LoaderComponent.jsx'
 import { useNavigate } from 'react-router-dom'
-import { createAppointment } from '../api/endpoints'
+import {
+  createAppointment,
+  getAvailableHoursAppointments,
+} from '../api/endpoints'
 import { ToastContainer, toast } from 'react-toastify'
 const items = [
   {
-    label: 'Citas',
-    //url: '',
+    label: 'Crear cita',
   },
 ]
 
 const home = {
   label: 'Dashboard',
-  icon: '',
-  //url: 'https://www.primefaces.org/primereact',
+  icon: 'pi pi-home',
+  url: '/dashboard',
 }
 const today = new Date()
 
-const morningHours = [
-  '08:00',
-  '08:30',
-  '09:00',
-  '09:30',
-  '10:00',
-  '10:30',
-  '11:00',
-  '11:30',
-]
-const afternoonHours = [
-  '13:00',
-  '13:30',
-  '14:00',
-  '14:30',
-  '15:00',
-  '15:30',
-  '16:00',
-  '16:30',
-]
 const CreateAppointmentPage = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -53,6 +35,27 @@ const CreateAppointmentPage = () => {
     name: '',
     reason: '',
   })
+  const [availableHours, setAvailableHours] = useState(null)
+
+  useEffect(() => {
+    async function _getAvailableHoursAppointments(date) {
+      try {
+        setLoading(true)
+        const response = await getAvailableHoursAppointments(date)
+        setAvailableHours(response)
+      } catch (err) {
+        toast(err.msg, {
+          type: 'error',
+        })
+      }
+      setLoading(false)
+    }
+    if (appointment.date) {
+      _getAvailableHoursAppointments(
+        appointment.date.toISOString().slice(0, 10)
+      )
+    }
+  }, [appointment.date])
   async function _createAppointment(data) {
     // Validate data
     const isValidated = validateData(data)
@@ -99,15 +102,14 @@ const CreateAppointmentPage = () => {
     return { msg: '', status: true }
   }
   function formatDate(date) {
-    const dateWithCorrectFormat = date.toISOString()
-    return dateWithCorrectFormat
+   return date.toISOString()
   }
   return (
     <>
       <ToastContainer />
       {loading && <LoaderComponent />}
       <BreadCrumbComponent items={items} home={home} />
-      <main className='container '>
+      <main className='container mb-3'>
         <div className='row  pt-2'>
           <div className='col-12 col-md-4 '>
             <Calendar
@@ -134,16 +136,19 @@ const CreateAppointmentPage = () => {
               De 8:00 a 12:00
             </p>
             <section className='w-100 d-flex flex-wrap gap-3 justify-content-around align-items-center mt-3'>
-              {morningHours.map((item, index) => {
-                return (
-                  <RadioButtomSelectorHourComponent
-                    item={item}
-                    appointment={appointment}
-                    key={index}
-                    setAppointment={setAppointment}
-                  />
-                )
-              })}
+              {availableHours
+                ? availableHours.morningBusinessHours.map((item, index) => {
+                    return (
+                      <RadioButtomSelectorHourComponent
+                        item={item.hour}
+                        status={item.status}
+                        appointment={appointment}
+                        key={index}
+                        setAppointment={setAppointment}
+                      />
+                    )
+                  })
+                : null}
             </section>
             <span className='d-flex gap-2 align-items-center mt-2'>
               <i className='pi pi-sun'></i>
@@ -153,16 +158,19 @@ const CreateAppointmentPage = () => {
               De 13:00 a 17:00
             </p>
             <section className='w-100 d-flex flex-wrap gap-3 justify-content-around align-items-center mt-3'>
-              {afternoonHours.map((item, index) => {
-                return (
-                  <RadioButtomSelectorHourComponent
-                    item={item}
-                    appointment={appointment}
-                    key={index}
-                    setAppointment={setAppointment}
-                  />
-                )
-              })}
+              {availableHours
+                ? availableHours.afternoonBusinessHours.map((item, index) => {
+                    return (
+                      <RadioButtomSelectorHourComponent
+                        item={item.hour}
+                        status={item.status}
+                        appointment={appointment}
+                        key={index}
+                        setAppointment={setAppointment}
+                      />
+                    )
+                  })
+                : null}
             </section>
             <div className='row'>
               <div className='col-6 mt-3'>

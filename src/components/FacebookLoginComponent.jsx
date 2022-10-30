@@ -20,7 +20,6 @@ export default function FacebookLoginComponent() {
       {loading && <LoaderComponent />}
       <FacebookLogin
         appId='769830507411915'
-        autoLoad
         fields='name,email,picture'
         scope='public_profile,email'
         size='small'
