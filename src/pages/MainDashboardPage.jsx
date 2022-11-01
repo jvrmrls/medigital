@@ -65,7 +65,9 @@ const MainDashboardPage = () => {
     }
     // Filter appointments only for today
     const todayAppointments = appointments.filter((item) => {
-      return moment(item.date).isSame(new Date(), 'day')
+      return (
+        moment(item.date).isSame(new Date(), 'day') && item.status === 'PENDING'
+      )
     })
     const counter = todayAppointments.length
     if (counter > 0 && !loading) {
