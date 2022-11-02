@@ -52,7 +52,7 @@ const ShowListAppointmentsComponent = ({
       className='w-100 d-flex gap-2 gap-lg-4 flex-wrap justify-content-center align-items-center'
       style={{ minHeight: '500px' }}
     >
-      <AnimatePresence>
+      <AnimatePresence initial={false} exit>
         {appointments
           .filter((item) => {
             if (filter.date && filter.status)
