@@ -9,7 +9,6 @@ _API.interceptors.request.use(function (config) {
 })
 
 _API.interceptors.response.use((config) => {
-  console.log(config.status)
   if (config.status === 403) {
     localStorage.removeItem('medigital:credential')
     RedirectMainPage()
