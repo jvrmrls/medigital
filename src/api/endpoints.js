@@ -1,11 +1,27 @@
 import { getLocalStorageOnlyCredential } from '../helpers/localStorageCredentials'
 import _API from './index'
+import { useNavigate } from 'react-router-dom'
 
 _API.interceptors.request.use(function (config) {
   const token = getLocalStorageOnlyCredential()
   config.headers.Authorization = token ? `Bearer ${token}` : ''
   return config
 })
+
+_API.interceptors.response.use((config) => {
+  console.log(config.status)
+  if (config.status !== 403) {
+    localStorage.removeItem('medigital:credential')
+    RedirectMainPage()
+  }
+  return config
+})
+
+// REDIRECT MAIN PAGE
+const RedirectMainPage = () => {
+  const navigate = useNavigate()
+  navigate('/', { replace: true })
+}
 // CONFIGURE THE ENDPOINTS
 
 // endpoint "login"
