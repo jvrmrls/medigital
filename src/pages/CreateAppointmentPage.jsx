@@ -34,6 +34,7 @@ const CreateAppointmentPage = () => {
     hour: null,
     name: '',
     reason: '',
+    dui: '',
   })
   const [availableHours, setAvailableHours] = useState(null)
 
@@ -173,7 +174,7 @@ const CreateAppointmentPage = () => {
                 : null}
             </section>
             <div className='row'>
-              <div className='col-12 col-md-6 mt-3'>
+              <div className='col-12 mt-3'>
                 <label htmlFor=''>Nombre de paciente *</label>
                 <InputText
                   value={appointment?.name}
@@ -186,7 +187,23 @@ const CreateAppointmentPage = () => {
                   }}
                 />
               </div>
-              <div className='col-12 col-md-6 mt-3'>
+              </div>
+              <div className='row'>
+              <div className='col-12 col-md-4 mt-3'>
+                <label htmlFor=''>DUI (sin gui&oacute;n)</label>
+                <InputText
+                  value={appointment?.dui}
+                  className='w-100 text-uppercase'
+                  maxLength={9}
+                  placeholder='012345678'
+                  onChange={(e) => {
+                    setAppointment((current) => {
+                      return { ...current, dui: e.target.value }
+                    })
+                  }}
+                />
+              </div>
+              <div className='col-12 col-md-8 mt-3'>
                 <label htmlFor=''>Motivo *</label>
                 <InputText
                   className='w-100 text-uppercase'
