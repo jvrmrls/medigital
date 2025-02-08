@@ -10,6 +10,7 @@ import { getLocalStorageCredentials } from '../helpers/localStorageCredentials.j
 import { useNavigate } from 'react-router-dom'
 import { login } from '../api/endpoints.js'
 import LoaderComponent from './LoaderComponent.jsx'
+import { setLocalStorageCredentials } from '../helpers/localStorageCredentials'
 
 const LoginComponent = () => {
   const navigate = useNavigate()
@@ -38,7 +39,8 @@ const LoginComponent = () => {
     setLoading(true)
     try {
       const response = await login({ ...credentials, platform: 'NATIVE' })
-      console.log(response)
+      setLocalStorageCredentials(response)
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       console.log(err)
     }
